@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	    http://www.springframework.org/schema/beans/spring-beans.xsd
+ 		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="org.nextprot.api.commons"/>
+
+    <beans>
+
+        <bean id="dataSourceServiceLocator"
+              class="org.nextprot.api.commons.spring.jdbc.impl.DataSourceServiceLocatorImpl">
+            <property name="dataSource" ref="dataSource"/>
+            <property name="userDataSource" ref="userDataSource"/>
+            <property name="statementsDataSource" ref="statementsDataSource"/>
+        </bean>
+
+        <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+            <property name="driverClass" value="org.postgresql.Driver"/>
+            <property name="jdbcUrl" value="jdbc:postgresql://kant:5432/nextprot_2021119"/>
+            <property name="user" value="postgres"/>
+            <property name="password" value="postgres"/>
+            <property name="maxPoolSize" value="6"/>
+            <property name="minPoolSize" value="1"/>
+            <property name="initialPoolSize" value="1"/>
+            <property name="autoCommitOnClose" value="false"/>
+            <property name="testConnectionOnCheckout" value="true"/>
+            <property name="testConnectionOnCheckin" value="true" />
+            <property name="idleConnectionTestPeriod" value="120" />
+            <property name="preferredTestQuery" value="SELECT 1" />
+        </bean>
+
+        <bean id="statementsDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+            <property name="driverClass" value="org.postgresql.Driver"/>
+            <property name="jdbcUrl" value="jdbc:postgresql://kant:5432/nxflat_20210728"/>
+            <property name="user" value="postgres"/>
+            <property name="password" value="postgres"/>
+            <property name="maxPoolSize" value="6"/>
+            <property name="minPoolSize" value="1"/>
+            <property name="initialPoolSize" value="1"/>
+            <property name="autoCommitOnClose" value="false"/>
+        </bean>
+
+        <bean id="userDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+            <property name="driverClass" value="org.postgresql.Driver"/>
+            <property name="jdbcUrl" value="jdbc:postgresql://crick:5432/np_users"/>
+            <property name="user" value="postgres"/>
+            <property name="password" value="postgres"/>
+            <property name="maxPoolSize" value="6"/>
+            <property name="minPoolSize" value="1"/>
+            <property name="initialPoolSize" value="1"/>
+            <property name="autoCommitOnClose" value="false"/>
+        </bean>
+
+    </beans>
+
+    <!-- Does not seems to work when multiple spring containers like in module web
+    https://objectpartners.com/2010/08/23/gaining-access-to-the-spring-context-in-non-spring-managed-classes/
+    <beans>
+        <!-A SINGLE ENTRY POINT FOR ACCESSING ANY BEANS FOR NON-SPRING OBJECTS
+        http://sujitpal.blogspot.com/2007/03/accessing-spring-beans-from-legacy-code.html ->
+        <bean id="springApplicationContext" class="org.nextprot.api.commons.utils.SpringApplicationContext"/>
+    </beans>
+    -->
+</beans>
