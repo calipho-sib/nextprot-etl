@@ -1,6 +1,6 @@
 package org.nextprot.etl;
 
-import org.nextprot.etl.kafka.Consumer;
+import org.nextprot.etl.kafka.TransformConsumer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -21,7 +21,7 @@ public class ETLRunner {
     }
 
     @Autowired
-    Consumer consumer;
+    TransformConsumer consumer;
     public void start() {
         consumer.doSomething();
     }
